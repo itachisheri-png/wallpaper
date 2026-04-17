@@ -1,0 +1,59 @@
+{
+  "entities": {
+    "users": {
+      "title": "User",
+      "description": "User profile and settings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "isPremium": { "type": "boolean" },
+        "role": { "type": "string", "enum": ["admin", "user"] }
+      },
+      "required": ["uid", "email"]
+    },
+    "admin_images": {
+      "title": "Admin Image",
+      "description": "Images uploaded by admins",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "url": { "type": "string" },
+        "thumbnailUrl": { "type": "string" },
+        "title": { "type": "string" },
+        "author": { "type": "string" },
+        "width": { "type": "number" },
+        "height": { "type": "number" },
+        "isPremium": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "url", "title"]
+    },
+    "deleted_images": {
+      "title": "Deleted Image",
+      "description": "Track images hidden by the user",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "imageId": { "type": "string" }
+      },
+      "required": ["userId", "imageId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "User profile data"
+    },
+    "/admin_images/{imageId}": {
+      "schema": "admin_images",
+      "description": "Global admin-uploaded images"
+    },
+    "/users/{userId}/deleted_images/{imageId}": {
+      "schema": "deleted_images",
+      "description": "User-specific hidden images"
+    }
+  }
+}
